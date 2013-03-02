@@ -9990,7 +9990,8 @@ Pop to a window or a frame up according to `w3m-pop-up-windows' and
 (defun w3m-find-file (file)
   "Function used to open FILE whose name is expressed in ordinary format.
 The file name will be converted into the file: scheme."
-  (interactive "fFilename: ")
+  (interactive
+   (list (read-file-name "Filename:" nil nil nil (thing-at-point 'filename))))
   (w3m-goto-url (w3m-expand-file-name-as-url file)
 		nil
 		(w3m-static-if (fboundp 'universal-coding-system-argument)
