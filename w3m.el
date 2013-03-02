@@ -9993,10 +9993,10 @@ The file name will be converted into the file: scheme."
   (interactive
    (list (read-file-name "Filename:" nil nil nil (thing-at-point 'filename))))
   (w3m-goto-url (w3m-expand-file-name-as-url file)
-		nil
-		(w3m-static-if (fboundp 'universal-coding-system-argument)
-		    coding-system-for-read)
-		nil nil nil nil nil t))
+                nil
+                (w3m-static-if (fboundp 'universal-coding-system-argument)
+                    coding-system-for-read)
+                nil nil nil nil nil t))
 
 (defun w3m-cygwin-path (path)
   "Convert PATH in the win32 style into the cygwin format.
