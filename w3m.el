@@ -10514,14 +10514,23 @@ splitting windows vertically."
 ;; Why this function is here abruptly is because of `w-s-b-horizontal-window'.
 (defun w3m-display-width ()
   "Return the maximum width which should display lines within the value."
-  (if (< 0 w3m-fill-column)
-      w3m-fill-column
-    (+ (if (and w3m-select-buffer-horizontal-window
-		(get-buffer-window w3m-select-buffer-name))
-	   ;; Show pages as if there is no buffers selection window.
-	   (frame-width)
-	 (window-width))
-       (or w3m-fill-column -1))))
+  (with-current-buffer (or w3m-current-buffer (current-buffer))
+    (let ((amount (if (boundp 'text-scale-mode-amount)
+                      (- text-scale-mode-amount)
+                    0))
+          (step (if (boundp 'text-scale-mode-step)
+                    text-scale-mode-step
+                  1)))
+      (truncate
+       (* (if (< 0 w3m-fill-column)
+              w3m-fill-column
+            (+ (if (and w3m-select-buffer-horizontal-window
+                        (get-buffer-window w3m-select-buffer-name))
+                   ;; Show pages as if there is no buffers selection window.
+                   (frame-width)
+                 (window-width))
+               (or w3m-fill-column -1)))
+          (expt step amount))))))
 
 (defun w3m-select-buffer (&optional toggle nomsg)
   "Pop to the emacs-w3m buffers selection window up.
